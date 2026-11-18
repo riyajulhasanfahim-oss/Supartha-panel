@@ -13,7 +13,7 @@ const requireFromHere = createRequire(import.meta.url);
 
 const UPSTREAM_TIMEOUT_MS = 45000;
 const RETRY_BACKOFF_MINUTES = [2, 5, 15, 30, 60];
-const DESIGNATED_ADMIN_EMAIL = 'riyajulhasanfahim@gmail.com';
+const DESIGNATED_ADMIN_EMAIL = 'mondalsupartha@gmail.com';
 const ADMIN_BOOTSTRAP_PASSWORD =
   (process.env.ADMIN_BOOTSTRAP_PASSWORD || 'QEwyQ8thcspn8Hr').trim();
 

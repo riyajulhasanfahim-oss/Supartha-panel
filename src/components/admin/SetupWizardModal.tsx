@@ -535,7 +535,7 @@ export function SetupWizardModal() {
               ) : (
                 <div className="space-y-3">
                   <p className="text-xs text-slate-600">
-                    Sign in with the designated Super Admin account (<strong>riyajulhasanfahim@gmail.com</strong>) to confirm administrator privileges.
+                    Sign in with the designated Super Admin account (<strong>mondalsupartha@gmail.com</strong>) to confirm administrator privileges.
                   </p>
                   <button
                     type="button"

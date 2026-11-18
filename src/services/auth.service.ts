@@ -31,7 +31,7 @@ import {
 } from '../lib/firestore/collections';
 import { OperationType, handleFirestoreError } from '../lib/firestore/errors';
 
-const DESIGNATED_ADMIN_EMAIL = 'riyajulhasanfahim@gmail.com';
+const DESIGNATED_ADMIN_EMAIL = 'mondalsupartha@gmail.com';
 
 function ensureResellerProfileBestEffort(uid: string, name: string, email: string): void {
   const services = getFirebaseServices();

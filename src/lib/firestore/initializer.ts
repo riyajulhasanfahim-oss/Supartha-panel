@@ -178,13 +178,13 @@ export async function inspectSetupState(): Promise<SetupState> {
       const adminSnap = await getDoc(
         doc(db, FIRESTORE_COLLECTIONS.adminUsers, auth.currentUser.uid)
       );
-      if (auth.currentUser.email?.trim().toLowerCase() === 'riyajulhasanfahim@gmail.com') {
+      if (auth.currentUser.email?.trim().toLowerCase() === 'mondalsupartha@gmail.com') {
         adminConfigured = true;
       } else if (adminSnap.exists()) {
         const admData = adminSnap.data() as { status?: string; email?: string };
         adminConfigured =
           admData.status === 'active' &&
-          auth.currentUser.email?.trim().toLowerCase() === 'riyajulhasanfahim@gmail.com';
+          auth.currentUser.email?.trim().toLowerCase() === 'mondalsupartha@gmail.com';
       }
     } catch {
       adminConfigured = false;
@@ -290,7 +290,7 @@ export async function initializeDatabase(options?: {
       const adminDoc: FirestoreAdminUserDoc = {
         uid: currentUser.uid,
         name: currentUser.displayName ?? 'Super Admin',
-        email: currentUser.email ?? 'admin@suparthapanel.com',
+        email: currentUser.email ?? 'mondalsupartha@gmail.com',
         role: 'super_admin',
         status: 'active',
         createdAt: serverTimestamp(),
@@ -319,7 +319,7 @@ export async function initializeDatabase(options?: {
       const userDoc: FirestoreUserDoc = {
         uid: currentUser.uid,
         name: currentUser.displayName ?? 'Panel Administrator',
-        email: currentUser.email ?? 'admin@suparthapanel.com',
+        email: currentUser.email ?? 'mondalsupartha@gmail.com',
         role: 'admin',
         balance: 0,
         status: 'active',
