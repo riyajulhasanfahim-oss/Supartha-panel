@@ -148,7 +148,7 @@ export function BannerSlider() {
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015]"
                     />
                   )}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-slate-950/65 via-slate-950/20 to-transparent" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-slate-950/55 via-slate-950/15 to-transparent" />
                   {videoUrl && (
                     <span className="absolute right-3 top-3 inline-flex items-center gap-1.5 rounded-lg bg-slate-950/75 px-2.5 py-1.5 text-[11px] font-semibold text-white backdrop-blur-xs">
                       <Play className="h-3 w-3 text-amber-300" aria-hidden="true" />
@@ -172,14 +172,14 @@ export function BannerSlider() {
                       didSwipeRef.current = false;
                     }
                   }}
-                  className="relative block h-[156px] sm:h-[180px] md:h-[196px] w-full shrink-0 overflow-hidden bg-slate-950 cursor-pointer"
+                  className="relative block aspect-[16/9] sm:aspect-auto sm:h-[196px] md:h-[214px] w-full shrink-0 overflow-hidden bg-slate-950 cursor-pointer"
                 >
                   {slideInner}
                 </a>
               ) : (
                 <div
                   key={`${imageUrl}-${idx}`}
-                  className="relative h-[156px] sm:h-[180px] md:h-[196px] w-full shrink-0 overflow-hidden bg-slate-950"
+                  className="relative aspect-[16/9] sm:aspect-auto sm:h-[196px] md:h-[214px] w-full shrink-0 overflow-hidden bg-slate-950"
                 >
                   {slideInner}
                 </div>
@@ -187,10 +187,90 @@ export function BannerSlider() {
             })
           : SHOWCASE_SLIDES.map((slide, idx) => {
               const isBroken = Boolean(brokenUrls[slide.id]);
+
+              if (slide.isArtworkBanner) {
+                return (
+                  <div
+                    key={slide.id}
+                    className={`relative flex aspect-[16/9] sm:aspect-auto sm:h-[196px] md:h-[214px] w-full shrink-0 overflow-hidden ${
+                      slide.panelSurfaceClass ?? 'bg-slate-950'
+                    }`}
+                  >
+                    {/* Tablet/Desktop Left Summary Column */}
+                    <div className="hidden sm:flex flex-1 min-w-0 flex-col justify-center px-5 lg:px-7">
+                      <div className="flex items-center gap-2 text-[11px] font-medium text-slate-300 truncate">
+                        <span className="font-semibold text-amber-300">{brandName}</span>
+                        <span aria-hidden="true">·</span>
+                        <span className="truncate">{slide.kicker}</span>
+                      </div>
+
+                      <h2 className="mt-1 line-clamp-2 font-display text-base lg:text-lg font-extrabold tracking-tight text-white text-balance">
+                        {slide.title}
+                      </h2>
+
+                      <p className="mt-1 hidden lg:line-clamp-1 text-xs text-slate-200/90">
+                        {slide.subtitle}
+                      </p>
+
+                      <div className="mt-2.5 flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleSlideAction(slide.targetAction)}
+                          className="inline-flex h-8 items-center gap-1.5 rounded-xl bg-amber-400 px-3.5 text-xs font-bold text-slate-950 shadow-sm transition-colors hover:bg-amber-300 active:scale-[0.98] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                        >
+                          <span>{slide.ctaLabel}</span>
+                          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Full Uncropped 16:9 Banner Artwork */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (didSwipeRef.current) {
+                          didSwipeRef.current = false;
+                          return;
+                        }
+                        handleSlideAction(slide.targetAction);
+                      }}
+                      aria-label={`${slide.title} — ${slide.ctaLabel}`}
+                      className="relative h-full w-full sm:w-[348px] md:w-[380px] shrink-0 overflow-hidden text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                    >
+                      {isBroken ? (
+                        <div
+                          className={`flex h-full w-full flex-col items-center justify-center bg-gradient-to-br ${slide.fallbackGradient} px-4 text-center text-white`}
+                        >
+                          <img
+                            src={logoUrl}
+                            alt={brandName}
+                            className="mb-1.5 h-10 w-10 rounded-full object-cover bg-slate-950 ring-1 ring-sky-400/60"
+                          />
+                          <span className="font-display text-sm font-extrabold">{brandName}</span>
+                        </div>
+                      ) : (
+                        <img
+                          src={slide.imageUrl}
+                          alt={slide.title}
+                          referrerPolicy="no-referrer"
+                          loading={idx === 0 ? 'eager' : 'lazy'}
+                          decoding="async"
+                          fetchPriority={idx === 0 ? 'high' : 'auto'}
+                          onError={() =>
+                            setBrokenUrls((prev) => ({ ...prev, [slide.id]: true }))
+                          }
+                          className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.015]"
+                        />
+                      )}
+                    </button>
+                  </div>
+                );
+              }
+
               return (
                 <div
                   key={slide.id}
-                  className="relative flex h-[168px] sm:h-[184px] md:h-[200px] w-full shrink-0 items-center overflow-hidden bg-slate-950"
+                  className="relative flex aspect-[16/9] sm:aspect-auto sm:h-[196px] md:h-[214px] w-full shrink-0 items-center overflow-hidden bg-slate-950"
                 >
                   {isBroken ? (
                     <div
@@ -214,28 +294,28 @@ export function BannerSlider() {
                   {/* Measured Contrast Scrim */}
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-r from-[#080414]/95 via-[#12082B]/80 to-[#080414]/20"
+                    className="absolute inset-0 bg-gradient-to-r from-[#080414]/92 via-[#12082B]/72 to-[#080414]/15"
                   />
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-[#080414]/70 via-transparent to-transparent"
+                    className="absolute inset-0 bg-gradient-to-t from-[#080414]/65 via-transparent to-transparent"
                   />
 
-                  <div className="relative z-10 flex w-full items-center justify-between gap-4 px-4 pt-3 pb-8 sm:py-0 sm:px-7 md:px-9">
-                    <div className="flex items-center gap-3.5 min-w-0 max-w-2xl">
+                  <div className="relative z-10 flex w-full items-center justify-between gap-3 px-4 pt-2 pb-7 sm:py-0 sm:px-7 md:px-9">
+                    <div className="flex items-center gap-3 min-w-0 max-w-[82%] sm:max-w-2xl">
                       <img
                         src={logoUrl}
                         alt={brandName}
-                        className="hidden sm:block h-12 w-12 md:h-14 md:w-14 shrink-0 rounded-full object-cover bg-slate-950 ring-2 ring-sky-400/60 shadow-lg shadow-slate-950/40"
+                        className="hidden sm:block h-11 w-11 md:h-12 md:w-12 shrink-0 rounded-full object-cover bg-slate-950 ring-2 ring-sky-400/60 shadow-md shadow-slate-950/40"
                       />
                       <div className="min-w-0">
-                        <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-300 truncate">
+                        <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium text-slate-300 truncate">
                           <span className="font-semibold text-amber-300">{brandName}</span>
                           <span aria-hidden="true">·</span>
                           <span className="truncate">{slide.kicker}</span>
                         </div>
 
-                        <h2 className="mt-0.5 line-clamp-2 font-display text-sm sm:text-lg md:text-xl font-extrabold tracking-tight text-white text-balance">
+                        <h2 className="mt-0.5 line-clamp-2 font-display text-[14px] sm:text-base md:text-lg font-extrabold tracking-tight text-white text-balance">
                           {slide.title}
                         </h2>
 
@@ -243,24 +323,24 @@ export function BannerSlider() {
                           {slide.subtitle}
                         </p>
 
-                        <div className="mt-2 sm:mt-2.5 flex items-center gap-2.5">
+                        <div className="mt-2 flex items-center gap-2">
                           <button
                             type="button"
                             onClick={() => handleSlideAction(slide.targetAction)}
-                            className="inline-flex h-8 sm:h-9 items-center gap-1.5 rounded-xl bg-amber-400 px-3.5 text-xs font-bold text-slate-950 shadow-md transition-colors hover:bg-amber-300 active:scale-[0.98] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+                            className="inline-flex h-7 sm:h-8 items-center gap-1 rounded-lg sm:rounded-xl bg-amber-400 px-3 sm:px-3.5 text-[11px] sm:text-xs font-bold text-slate-950 shadow-sm transition-colors hover:bg-amber-300 active:scale-[0.98] whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                           >
                             <span>{slide.ctaLabel}</span>
-                            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                            <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" aria-hidden="true" />
                           </button>
                         </div>
                       </div>
                     </div>
 
-                    <div className="hidden md:flex shrink-0 flex-col items-end rounded-xl border border-white/15 bg-slate-950/60 px-3.5 py-2 text-right backdrop-blur-md">
+                    <div className="hidden md:flex shrink-0 flex-col items-end rounded-xl border border-white/15 bg-slate-950/60 px-3 py-1.5 text-right backdrop-blur-md">
                       <span className="text-[10px] font-medium text-slate-300">
                         {slide.metricLabel}
                       </span>
-                      <span className="font-display text-xl font-extrabold text-white tabular-nums">
+                      <span className="font-display text-lg font-extrabold text-white tabular-nums">
                         {slide.metricValue}
                       </span>
                     </div>
@@ -276,7 +356,7 @@ export function BannerSlider() {
             type="button"
             onClick={goPrev}
             aria-label="Previous banner"
-            className="hidden sm:inline-flex z-10 absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-slate-950/55 text-white opacity-0 backdrop-blur-xs transition-opacity duration-200 hover:bg-slate-950/80 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            className="hidden sm:inline-flex z-10 absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-slate-950/55 text-white opacity-0 backdrop-blur-xs transition-opacity duration-200 hover:bg-slate-950/80 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -285,13 +365,13 @@ export function BannerSlider() {
             type="button"
             onClick={goNext}
             aria-label="Next banner"
-            className="hidden sm:inline-flex z-10 absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-slate-950/55 text-white opacity-0 backdrop-blur-xs transition-opacity duration-200 hover:bg-slate-950/80 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            className="hidden sm:inline-flex z-10 absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 items-center justify-center rounded-xl border border-white/20 bg-slate-950/55 text-white opacity-0 backdrop-blur-xs transition-opacity duration-200 hover:bg-slate-950/80 group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
 
           <div
-            className="z-10 absolute bottom-2.5 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-slate-950/50 px-2.5 py-1 backdrop-blur-xs"
+            className="z-10 absolute bottom-1.5 sm:bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-slate-950/55 px-2.5 py-0.5 backdrop-blur-xs"
             role="tablist"
             aria-label="Banner slides"
           >
@@ -305,10 +385,10 @@ export function BannerSlider() {
                   aria-selected={isActive}
                   aria-label={`Go to banner ${idx + 1}`}
                   onClick={() => setActiveIndex(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                  className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
                     isActive
-                      ? 'w-6 bg-amber-400'
-                      : 'w-2 bg-white/50 hover:bg-white/85'
+                      ? 'w-5 sm:w-6 bg-amber-400'
+                      : 'w-1.5 sm:w-2 bg-white/50 hover:bg-white/85'
                   }`}
                 />
               );

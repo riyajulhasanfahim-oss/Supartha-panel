@@ -17,12 +17,46 @@ export interface ShowcaseSlide {
   metricLabel: string;
   imageUrl: string;
   fallbackGradient: string;
+  isArtworkBanner?: boolean;
+  panelSurfaceClass?: string;
 }
 
 export const SHOWCASE_SLIDES: readonly ShowcaseSlide[] = [
   {
+    id: 'supartha-welcome-banner',
+    tabLabel: '01. Supartha Panel',
+    kicker: 'Official Trusted SMM Panel',
+    title: 'Welcome to Supartha Panel — Grow Fast. Grow Smart.',
+    subtitle:
+      'Followers, likes, views & subscribers with instant delivery, 100% safe execution, and affordable BDT pricing.',
+    ctaLabel: 'Join Now',
+    targetAction: 'new-order',
+    metricValue: '24/7',
+    metricLabel: 'Customer Support',
+    imageUrl: '/assets/aistudio/file_0000000053ac81faba1c893d99347b82_7ff0f8a1.png',
+    fallbackGradient: 'from-[#2A0958] via-[#4C1D95] to-[#1E1B4B]',
+    isArtworkBanner: true,
+    panelSurfaceClass: 'bg-gradient-to-br from-[#160530] via-[#2C0E5E] to-[#120729]',
+  },
+  {
+    id: 'supartha-growth-banner',
+    tabLabel: '02. Get Started',
+    kicker: 'Instagram · YouTube · TikTok · Facebook',
+    title: 'Boost Your Social Media Presence Today',
+    subtitle:
+      'Low prices, reliable fulfillment, and instant delivery across Instagram, YouTube, Facebook, TikTok & Telegram.',
+    ctaLabel: 'Get Started Now',
+    targetAction: 'services',
+    metricValue: '100%',
+    metricLabel: 'Safe & Reliable',
+    imageUrl: '/assets/aistudio/file_0000000084348211bebf8dc443028bd1_e0c8d2d6.png',
+    fallbackGradient: 'from-[#020817] via-[#061A44] to-[#0A2558]',
+    isArtworkBanner: true,
+    panelSurfaceClass: 'bg-gradient-to-br from-[#020614] via-[#06183E] to-[#040B24]',
+  },
+  {
     id: 'social-boost',
-    tabLabel: '01. Instagram & Likes',
+    tabLabel: '03. Instagram & Likes',
     kicker: 'Instagram & Social Engagement',
     title: 'Boost Instagram Followers, Likes & Viral Reach',
     subtitle:
@@ -36,7 +70,7 @@ export const SHOWCASE_SLIDES: readonly ShowcaseSlide[] = [
   },
   {
     id: 'youtube-growth',
-    tabLabel: '02. YouTube Growth',
+    tabLabel: '04. YouTube Growth',
     kicker: 'YouTube Studio Growth',
     title: 'Skyrocket YouTube Views, Watch Time & Subscribers',
     subtitle:
@@ -50,7 +84,7 @@ export const SHOWCASE_SLIDES: readonly ShowcaseSlide[] = [
   },
   {
     id: 'reels-tiktok',
-    tabLabel: '03. TikTok & Reels',
+    tabLabel: '05. TikTok & Reels',
     kicker: 'Short-Form Viral Boost',
     title: 'Go Viral Faster on TikTok & Facebook Reels',
     subtitle:
@@ -64,7 +98,7 @@ export const SHOWCASE_SLIDES: readonly ShowcaseSlide[] = [
   },
   {
     id: 'multi-platform',
-    tabLabel: '04. All Platforms',
+    tabLabel: '06. All Platforms',
     kicker: 'Facebook · Telegram · Reseller Hub',
     title: 'All Social Networks in One Fast Reseller Panel',
     subtitle:
