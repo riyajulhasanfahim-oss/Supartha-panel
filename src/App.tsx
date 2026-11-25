@@ -8,6 +8,7 @@ import { Ban, AlertTriangle, LogOut } from 'lucide-react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Toast } from './components/common/Toast';
 import { InstallAppBanner } from './components/common/InstallAppBanner';
+import { DeveloperNoticePopup } from './components/common/DeveloperNoticePopup';
 import { DashboardHeader } from './components/layout/DashboardHeader';
 import { DashboardSidebar } from './components/layout/DashboardSidebar';
 import { MobileBottomNav } from './components/layout/MobileBottomNav';
@@ -197,6 +198,7 @@ function AppContent() {
       {canRenderAdmin && <AdminPanelPage />}
       <InstallAppBanner />
       <Toast />
+      <DeveloperNoticePopup />
     </>
   );
 }
